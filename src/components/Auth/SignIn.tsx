@@ -73,7 +73,7 @@ const SignIn = () => {
 
             <div className='col-span-2 flex justify-end gap-6'>
               <button
-                className="text-left text-slate-700 underline"
+                className="text-left text-slate-700 underline decoration-slate-300 hover:decoration-black hover:text-black transition-all"
                 type="button"
                 onClick={() => setView(VIEWS.FORGOTTEN_PASSWORD)}
               >
@@ -90,7 +90,7 @@ const SignIn = () => {
       </Formik>
       <div className='flex justify-center'>
         <button
-          className="text-slate-700 underline"
+          className="text-left text-slate-700 underline decoration-slate-300 hover:decoration-black hover:text-black transition-all"
           type="button"
           onClick={() => setView(VIEWS.SIGN_UP)}
         >
