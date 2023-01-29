@@ -26,7 +26,10 @@ export default async function RootLayout({
           <AuthProvider accessToken={accessToken}>
             <main className="container mx-auto p-8">
               <header className="flex-gap mb-12 flex items-center justify-between gap-8 border-b border-slate-200 pb-8">
-                <Link className="text-2xl font-extrabold" href="/">Rewali</Link>
+                <div className="flex gap-4 items-baseline">
+                  <Link className="text-2xl font-extrabold" href="/">Rewali</Link>
+                  <span className="underline-offset-2">Easy <u className="underline decoration-slate-400">Re</u>ading & <u className="underline decoration-slate-400">Wa</u>tching <u className="underline decoration-slate-400">Li</u>st</span>
+                </div>
                 <AuthArea />
               </header>
               {children}
