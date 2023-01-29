@@ -1,12 +1,13 @@
 "use client"
-import { supabaseClient } from '@/utils/supabaseClient'
-import { useUser } from '@supabase/auth-helpers-react'
+import { Database } from '@/lib/database.types'
+import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 import { AuthSession } from '@supabase/supabase-js'
 import { AuthContext } from './AuthContext'
 
 export const AuthArea: React.FC<{
   initialSession?: AuthSession | null;
 }> = ({ initialSession }) => {
+  const supabaseClient = useSupabaseClient<Database>()
   // Create a new supabase browser client on every first render.
   const user = useUser()
 
