@@ -29,6 +29,7 @@ const UpdatePassword = () => {
     <div className="card">
       <h2 className="w-full text-center">Update Password</h2>
       <Formik
+        // @ts-ignore
         initialValues={{
           password: '',
         }}

@@ -37,6 +37,7 @@ const SignUp = () => {
     <div className="card">
       <h2 className="w-full text-center">Create Account</h2>
       <Formik
+        // @ts-ignore
         initialValues={{
           email: '',
           password: '',

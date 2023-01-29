@@ -34,6 +34,7 @@ const SignIn = () => {
     <div className="px-8 py-6 border bg-white border-slate-200 shadow-lg">
       <h2 className="font-bold mb-6 text-2xl">Sign In</h2>
       <Formik
+        // @ts-ignore
         initialValues={{
           email: '',
           password: '',
