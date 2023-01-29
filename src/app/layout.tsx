@@ -1,7 +1,8 @@
 import { supabaseServer } from '@/utils/supabaseServer'
-// import { AuthArea } from '@/components/AuthArea'
+import { AuthArea } from '@/components/AuthArea'
 import { AuthProvider } from '@/components/AuthProvider'
 import './styles/globals.css'
+import Link from 'next/link'
 
 export default async function RootLayout({
   children,
@@ -25,8 +26,8 @@ export default async function RootLayout({
           <AuthProvider accessToken={accessToken}>
             <main className="container mx-auto p-8">
               <header className="flex-gap mb-12 flex items-center justify-between gap-8 border-b border-slate-200 pb-8">
-                <span className="text-2xl font-extrabold">Rewali</span>
-                {/* <AuthArea /> */}
+                <Link className="text-2xl font-extrabold" href="/">Rewali</Link>
+                <AuthArea />
               </header>
               {children}
             </main>

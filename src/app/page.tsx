@@ -4,9 +4,10 @@ import Link from 'next/link';
 
 import Auth from '@/components/Auth';
 import { useAuth, VIEWS } from '@/components/AuthProvider';
+import cn from "classnames"
 
 export default function Home() {
-  const { initial, user, view, signOut } = useAuth();
+  const { initial, user, view } = useAuth();
 
   if (initial) {
     return <div className="card h-72">Loading...</div>;
@@ -18,18 +19,25 @@ export default function Home() {
 
   if (user) {
     return (
-      <div className="card">
-        <h2>Welcome!</h2>
-        <code className="highlight">{user.role}</code>
+      <>
         <Link className="button" href="/profile">
           Go to Profile
         </Link>
-        <button type="button" className="button-inverse" onClick={signOut}>
-          Sign Out
-        </button>
-      </div>
-    );
+      </>
+    )
   }
 
-  return <Auth view={view} />;
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[calc(100vh-300px)] items-center">
+      <div>
+        <h1 className={cn("text-6xl font-extrabold mb-4")}>Welcome!</h1>
+        <p className={cn("max-w-lg")}>
+          Rewali is a small app allowing you to create a reading and watching list (Rewali) and to easily search for titles without having to goolge for those informations
+        </p>
+      </div>
+      <div>
+        <Auth view={view} />
+      </div>
+    </div>
+  );
 }
