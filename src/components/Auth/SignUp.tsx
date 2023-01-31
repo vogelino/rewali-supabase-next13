@@ -18,7 +18,7 @@ type FormType = Yup.InferType<typeof SignUpSchema>
 const SignUp = () => {
   const { setView } = useAuth();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<JSX.Element | null>(null);
 
   async function signUp(formData: FormType) {
     const { error } = await supabaseClient.auth.signUp({
@@ -29,13 +29,18 @@ const SignUp = () => {
     if (error) {
       setErrorMsg(error.message);
     } else {
-      setSuccessMsg('Success! Please check your email for further instructions.');
+      setSuccessMsg(
+        <>
+          <strong>Success!</strong>
+          <p>Please check your email for further instructions.</p>
+        </>
+      );
     }
   }
 
   return (
-    <div className="card">
-      <h2 className="w-full text-center">Create Account</h2>
+    <div className="px-8 py-6 border bg-white border-slate-200 shadow-lg">
+      <h2 className="font-bold mb-6 text-2xl">Create Account</h2>
       <Formik
         // @ts-ignore
         initialValues={{
@@ -45,46 +50,65 @@ const SignUp = () => {
         validationSchema={SignUpSchema}
         onSubmit={signUp}
       >
-        {({ errors, touched }) => (
-          <Form className="column w-full">
-            <label htmlFor="email">Email</label>
-            <Field
-              className={cn('input', errors.email && 'bg-red-50')}
-              id="email"
-              name="email"
-              placeholder="jane@acme.com"
-              type="email"
-            />
-            {errors.email && touched.email ? (
-              <div className="text-red-600">{errors.email}</div>
-            ) : null}
+        {({ errors, touched, submitCount }) => (
+          <Form className="flex flex-col gap-y-2 border-b border-slate-200 pb-6 mb-4">
+            <label htmlFor="email" className='pt-2'>Email</label>
+            <div className='flex flex-col gap-1 mb-2'>
+              <Field
+                className={cn(
+                  'input ',
+                  errors.email && touched.email && submitCount > 0
+                    ? 'bg-red-50 border-red-500 placeholder:text-red-400 focus:border-red-700'
+                    : 'border-slate-300 focus:border-slate-500 placeholder:text-slate-400'
+                )}
+                id="email"
+                name="email"
+                placeholder="jane@acme.com"
+                type="email"
+              />
+              {errors.email && touched.email && submitCount > 0 ? (
+                <div className="text-red-600">{errors.email}</div>
+              ) : null}
+            </div>
 
-            <label htmlFor="email">Password</label>
-            <Field
-              className={cn('input', errors.password && touched.password && 'bg-red-50')}
-              id="password"
-              name="password"
-              type="password"
-            />
-            {errors.password && touched.password ? (
-              <div className="text-red-600">{errors.password}</div>
-            ) : null}
+            <label htmlFor="password" className='pt-2'>Password</label>
+            <div className='flex flex-col gap-1 mb-6'>
+              <Field
+                className={cn(
+                  'input ',
+                  errors.password && touched.password && submitCount > 0
+                    ? 'bg-red-50 border-red-500 placeholder:text-red-400 focus:border-red-700'
+                    : 'border-slate-300 focus:border-slate-500 placeholder:text-slate-400'
+                )}
+                id="password"
+                name="password"
+                placeholder="●●●●●●●●●"
+                type="password"
+              />
+              {errors.password && touched.password && submitCount > 0 ? (
+                <div className="text-red-600">{errors.password}</div>
+              ) : null}
+            </div>
 
-            <button className="button-inverse w-full" type="submit">
-              Submit
-            </button>
+            <div className='flex justify-end gap-6'>
+              <button className="text-left px-4 py-2 bg-black text-white rounded-full" type="submit">
+                Sign Up
+              </button>
+            </div>
+            {errorMsg && <div className="flex flex-col text-red-600 border-t pt-4 border-red-200">{errorMsg}</div>}
+            {successMsg && <div className="flex flex-col border-t pt-6 border-slate-200">{successMsg}</div>}
           </Form>
         )}
       </Formik>
-      {errorMsg && <div className="text-red-600">{errorMsg}</div>}
-      {successMsg && <div className="text-black">{successMsg}</div>}
-      <button
-        className="link w-full"
-        type="button"
-        onClick={() => setView(VIEWS.SIGN_IN)}
-      >
-        Already have an account? Sign In.
-      </button>
+      <div className='flex justify-center'>
+        <button
+          className="text-left text-slate-700 underline decoration-slate-300 hover:decoration-black hover:text-black transition-all"
+          type="button"
+          onClick={() => setView(VIEWS.SIGN_IN)}
+        >
+          Already have an account? <strong>Sign In.</strong>
+        </button>
+      </div>
     </div>
   );
 };

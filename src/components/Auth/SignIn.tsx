@@ -63,7 +63,7 @@ const SignIn = () => {
               ) : null}
             </div>
 
-            <label htmlFor="email" className='pt-2'>Password</label>
+            <label htmlFor="password" className='pt-2'>Password</label>
             <div className='flex flex-col gap-1 mb-6'>
               <Field
                 className={cn(
@@ -92,7 +92,7 @@ const SignIn = () => {
               </button>
 
               <button className="text-left px-4 py-2 bg-black text-white rounded-full" type="submit">
-                Submit
+                Sign In
               </button>
             </div>
             {errorMsg && <div className="col-span-2 flex justify-start text-red-600 border-t pt-4 border-red-200">{errorMsg}</div>}
