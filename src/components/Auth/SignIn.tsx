@@ -42,32 +42,42 @@ const SignIn = () => {
         validationSchema={SignInSchema}
         onSubmit={signIn}
       >
-        {({ errors, touched }) => (
-          <Form className="grid grid-cols-[100px,1fr] gap-y-4 border-b border-slate-200 pb-6 mb-4">
+        {({ errors, touched, submitCount }) => (
+          <Form className="flex flex-col gap-y-2 border-b border-slate-200 pb-6 mb-4">
             <label htmlFor="email" className='pt-2'>Email</label>
-            <div className='flex flex-col gap-1'>
+            <div className='flex flex-col gap-1 mb-2'>
               <Field
-                className={cn('input', errors.email && touched.email && 'bg-red-50 border-red-700 placeholder:text-red-400')}
+                className={cn(
+                  'input ',
+                  errors.email && touched.email && submitCount > 0
+                    ? 'bg-red-50 border-red-500 placeholder:text-red-400 focus:border-red-700'
+                    : 'border-slate-300 focus:border-slate-500 placeholder:text-slate-400'
+                )}
                 id="email"
                 name="email"
                 placeholder="jane@acme.com"
                 type="email"
               />
-              {errors.email && touched.email ? (
+              {errors.email && touched.email && submitCount > 0 ? (
                 <div className="text-red-600">{errors.email}</div>
               ) : null}
             </div>
 
             <label htmlFor="email" className='pt-2'>Password</label>
-            <div className='flex flex-col gap-1'>
+            <div className='flex flex-col gap-1 mb-6'>
               <Field
-                className={cn('input placeholder:opacity-60', errors.password && touched.password && 'bg-red-50 border-red-700 placeholder:text-red-400')}
+                className={cn(
+                  'input ',
+                  errors.password && touched.password && submitCount > 0
+                    ? 'bg-red-50 border-red-500 placeholder:text-red-400 focus:border-red-700'
+                    : 'border-slate-300 focus:border-slate-500 placeholder:text-slate-400'
+                )}
                 id="password"
                 name="password"
                 placeholder="●●●●●●●●●"
                 type="password"
               />
-              {errors.password && touched.password ? (
+              {errors.password && touched.password && submitCount > 0 ? (
                 <div className="text-red-600">{errors.password}</div>
               ) : null}
             </div>

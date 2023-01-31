@@ -28,14 +28,14 @@ export default function Home() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[calc(100vh-300px)] items-center">
-      <div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 h-[calc(100vh-300px)] items-center">
+      <div className="lg:col-span-3">
         <h1 className={cn("text-6xl font-extrabold mb-4")}>Welcome!</h1>
         <p className={cn("max-w-lg")}>
           Rewali is a small app allowing you to create a reading and watching list (Rewali) and to easily search for titles without having to goolge for those informations
         </p>
       </div>
-      <div>
+      <div className="lg:col-span-2">
         <Auth view={view} />
       </div>
     </div>
