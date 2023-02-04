@@ -14,20 +14,23 @@ type FormType = Yup.InferType<typeof UpdatePasswordSchema>
 
 const UpdatePassword = () => {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   async function updatePassword(formData: FormType) {
-    const { data, error } = await supabaseClient.auth.updateUser({
+    const { error } = await supabaseClient.auth.updateUser({
       password: formData.password,
     });
 
     if (error) {
       setErrorMsg(error?.message);
     }
+
+    setSuccessMsg("Your password was successfully reset")
   }
 
   return (
-    <div className="card">
-      <h2 className="w-full text-center">Update Password</h2>
+    <div className="pt-8 mt-8 border-t border-slate-100">
+      <h3 className="text-2xl font-bold mb-4">Change Password</h3>
       <Formik
         // @ts-ignore
         initialValues={{
@@ -37,7 +40,7 @@ const UpdatePassword = () => {
         onSubmit={updatePassword}
       >
         {({ errors, touched, submitCount }) => (
-          <Form className="flex flex-col gap-y-2 border-b border-slate-200 pb-6 mb-4">
+          <Form className="flex flex-col gap-y-2 pb-6 mb-4">
             <label htmlFor="password" className='pt-2'>New password</label>
             <div className='flex flex-col gap-1 mb-6'>
               <Field
@@ -59,10 +62,11 @@ const UpdatePassword = () => {
 
             <div className='col-span-2 flex justify-end gap-6'>
               <button className="text-left px-4 py-2 bg-black text-white rounded-full" type="submit">
-                Update Password
+                Change Password
               </button>
             </div>
             {errorMsg && <div className="flex flex-col text-red-600 border-t pt-4 border-red-200">{errorMsg}</div>}
+            {successMsg && <div className="flex flex-col text-green-600 border-t pt-4 border-green-200">{errorMsg}</div>}
           </Form>
         )}
       </Formik>

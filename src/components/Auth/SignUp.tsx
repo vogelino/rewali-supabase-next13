@@ -27,8 +27,10 @@ const SignUp = () => {
     });
 
     if (error) {
+      setSuccessMsg(null)
       setErrorMsg(error.message);
     } else {
+      setErrorMsg(null)
       setSuccessMsg(
         <>
           <strong>Success!</strong>

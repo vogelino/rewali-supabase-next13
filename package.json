@@ -31,6 +31,7 @@
     "zod": "3.20.2"
   },
   "devDependencies": {
+    "@svgr/webpack": "6.5.1",
     "@types/lodash.debounce": "4.0.7",
     "autoprefixer": "10.4.13",
     "postcss": "8.4.21",

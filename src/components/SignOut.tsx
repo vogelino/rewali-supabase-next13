@@ -1,6 +1,7 @@
 'use client';
 
 import { useAuth } from './AuthProvider';
+import LogoutIcon from '@/icons/log-out.svg';
 
 export default function SignOut() {
   const { signOut } = useAuth();
@@ -14,7 +15,8 @@ export default function SignOut() {
   }
 
   return (
-    <button type="button" className="button-inverse" onClick={handleSignOut}>
+    <button type="button" className="text-red-600 flex gap-2 items-center text-lg" onClick={handleSignOut}>
+      <LogoutIcon />
       Sign Out
     </button>
   );
