@@ -9,139 +9,7 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      _prisma_migrations: {
-        Row: {
-          applied_steps_count: number
-          checksum: string
-          finished_at: string | null
-          id: string
-          logs: string | null
-          migration_name: string
-          rolled_back_at: string | null
-          started_at: string
-        }
-        Insert: {
-          applied_steps_count?: number
-          checksum: string
-          finished_at?: string | null
-          id: string
-          logs?: string | null
-          migration_name: string
-          rolled_back_at?: string | null
-          started_at?: string
-        }
-        Update: {
-          applied_steps_count?: number
-          checksum?: string
-          finished_at?: string | null
-          id?: string
-          logs?: string | null
-          migration_name?: string
-          rolled_back_at?: string | null
-          started_at?: string
-        }
-      }
-      _UserReadBooks: {
-        Row: {
-          A: string
-          B: string
-        }
-        Insert: {
-          A: string
-          B: string
-        }
-        Update: {
-          A?: string
-          B?: string
-        }
-      }
-      _UserReadingLists: {
-        Row: {
-          A: string
-          B: string
-        }
-        Insert: {
-          A: string
-          B: string
-        }
-        Update: {
-          A?: string
-          B?: string
-        }
-      }
-      _UserWatchedVideos: {
-        Row: {
-          A: string
-          B: string
-        }
-        Insert: {
-          A: string
-          B: string
-        }
-        Update: {
-          A?: string
-          B?: string
-        }
-      }
-      _UserWatchingLists: {
-        Row: {
-          A: string
-          B: string
-        }
-        Insert: {
-          A: string
-          B: string
-        }
-        Update: {
-          A?: string
-          B?: string
-        }
-      }
-      Account: {
-        Row: {
-          access_token: string | null
-          expires_at: number | null
-          id: string
-          id_token: string | null
-          provider: string
-          providerAccountId: string
-          refresh_token: string | null
-          scope: string | null
-          session_state: string | null
-          token_type: string | null
-          type: string
-          userId: string
-        }
-        Insert: {
-          access_token?: string | null
-          expires_at?: number | null
-          id: string
-          id_token?: string | null
-          provider: string
-          providerAccountId: string
-          refresh_token?: string | null
-          scope?: string | null
-          session_state?: string | null
-          token_type?: string | null
-          type: string
-          userId: string
-        }
-        Update: {
-          access_token?: string | null
-          expires_at?: number | null
-          id?: string
-          id_token?: string | null
-          provider?: string
-          providerAccountId?: string
-          refresh_token?: string | null
-          scope?: string | null
-          session_state?: string | null
-          token_type?: string | null
-          type?: string
-          userId?: string
-        }
-      }
-      Book: {
+      books: {
         Row: {
           authors: string[] | null
           cover: string | null
@@ -158,7 +26,7 @@ export interface Database {
         Insert: {
           authors?: string[] | null
           cover?: string | null
-          createdAt?: string
+          createdAt: string
           description?: string | null
           id: string
           isbn10?: string | null
@@ -182,27 +50,7 @@ export interface Database {
           updatedAt?: string
         }
       }
-      Session: {
-        Row: {
-          expires: string
-          id: string
-          sessionToken: string
-          userId: string
-        }
-        Insert: {
-          expires: string
-          id: string
-          sessionToken: string
-          userId: string
-        }
-        Update: {
-          expires?: string
-          id?: string
-          sessionToken?: string
-          userId?: string
-        }
-      }
-      User: {
+      profiles: {
         Row: {
           email: string | null
           emailVerified: string | null
@@ -225,24 +73,75 @@ export interface Database {
           name?: string | null
         }
       }
-      VerificationToken: {
+      user_read_books: {
         Row: {
-          expires: string
-          identifier: string
-          token: string
+          bookId: string
+          id: number
+          userId: string
         }
         Insert: {
-          expires: string
-          identifier: string
-          token: string
+          bookId: string
+          id?: number
+          userId: string
         }
         Update: {
-          expires?: string
-          identifier?: string
-          token?: string
+          bookId?: string
+          id?: number
+          userId?: string
         }
       }
-      Video: {
+      user_reading_list: {
+        Row: {
+          bookId: string
+          id: number
+          userId: string
+        }
+        Insert: {
+          bookId: string
+          id?: number
+          userId: string
+        }
+        Update: {
+          bookId?: string
+          id?: number
+          userId?: string
+        }
+      }
+      user_watched_videos: {
+        Row: {
+          id: number
+          userId: string
+          videoId: string
+        }
+        Insert: {
+          id?: number
+          userId: string
+          videoId: string
+        }
+        Update: {
+          id?: number
+          userId?: string
+          videoId?: string
+        }
+      }
+      user_watching_list: {
+        Row: {
+          id: number
+          userId: string
+          videoId: string
+        }
+        Insert: {
+          id?: number
+          userId: string
+          videoId: string
+        }
+        Update: {
+          id?: number
+          userId?: string
+          videoId?: string
+        }
+      }
+      videos: {
         Row: {
           authors: string[] | null
           castMembers: string[] | null
@@ -258,7 +157,7 @@ export interface Database {
         Insert: {
           authors?: string[] | null
           castMembers?: string[] | null
-          createdAt?: string
+          createdAt: string
           description?: string | null
           genres?: string[] | null
           id: string

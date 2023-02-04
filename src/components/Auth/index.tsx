@@ -1,18 +1,20 @@
 'use client';
 
+import { redirect } from 'next/navigation';
 import { useAuth, VIEWS, type ViewType } from '../AuthProvider';
-
 import ResetPassword from './ResetPassword';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import UpdatePassword from './UpdatePassword';
 
-const Auth = ({ view: initialView }: { view: ViewType }) => {
-  let { view } = useAuth();
+const Auth = ({ view: initialView }: { view?: ViewType }) => {
+  let auth = useAuth();
 
-  if (initialView) {
-    view = initialView;
+  if (auth.user?.email) {
+    redirect("/rewalist")
   }
+
+  const view = initialView || auth.view || VIEWS.SIGN_IN
 
   switch (view) {
     case VIEWS.UPDATE_PASSWORD:
