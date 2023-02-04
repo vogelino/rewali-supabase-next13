@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { supabaseServer } from '@/utils/supabaseServer';
 import { getRewalist } from '@/utils/rewalistUtil';
+import Search from '@/components/Search'
 
 export default async function Rewalist() {
   const supabase = supabaseServer();
@@ -16,10 +17,11 @@ export default async function Rewalist() {
   const rewalist = await getRewalist(user.id, supabase)
 
   return (
-    <div className="mx-auto max-w-lg p-4 md:p-6 lg:p-8 border border-slate-200 shadow-lg">
+    <>
+      <Search />
       <pre>
         {JSON.stringify(rewalist, null, 2)}
       </pre>
-    </div>
+    </>
   );
 }

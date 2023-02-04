@@ -1,29 +1,48 @@
 "use client"
 import { GoogleBookApiType } from "@/utils/googleBooksUtil";
 import { IMDBSearchResultType } from "@/utils/imdbUtils";
-import debounce from "lodash.debounce";
+import { useDebouncedCallback } from "use-debounce";
 import Image from "next/image";
-import { type ChangeEvent, useState } from "react";
+import { useCallback, useState } from "react";
+import useSWR from 'swr'
+
+async function searchBooksAndVideos(searchTerm?: string): Promise<{
+  books: GoogleBookApiType[]
+  videos: IMDBSearchResultType[]
+}> {
+  if (!searchTerm || !searchTerm.trim()) return { videos: [], books: [] }
+  const res = await fetch(`/api/search/${encodeURIComponent(searchTerm)}`)
+  const json = await res.json() as {
+    books: GoogleBookApiType[]
+    videos: IMDBSearchResultType[]
+  } | { error: string }
+  if ("error" in json) throw new Error(json.error)
+  return {
+    videos: json.videos || [],
+    books: json.books || [],
+  }
+}
 
 export default function Search(): JSX.Element {
   const [searchTerm, setSearchTerm] = useState("");
+  const [fieldValue, setFieldValue] = useState("");
   const books = [] as GoogleBookApiType[]
   const videos = [] as IMDBSearchResultType[]
+  const { data, error, isLoading } = useSWR([searchTerm], () => searchBooksAndVideos(searchTerm), {
+    revalidateOnFocus: false,
+  })
 
-  const searchHandler = debounce(
-    (e: ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value),
-    500
-  );
+  const debouncedSetSearchTerm = useDebouncedCallback((term) => setSearchTerm(term), 500)
 
-  const videoClickHandler = async (video: IMDBSearchResultType) => {
-    setSearchTerm("");
+  const videoClickHandler = useCallback(async (video: IMDBSearchResultType) => {
+    setFieldValue("");
     console.log(video)
-  };
+  }, [setFieldValue]);
 
-  const bookClickHandler = async (book: GoogleBookApiType) => {
-    setSearchTerm("");
+  const bookClickHandler = useCallback(async (book: GoogleBookApiType) => {
+    setFieldValue("");
     console.log(book)
-  };
+  }, [setFieldValue]);
 
   return (
     <section>
@@ -31,16 +50,24 @@ export default function Search(): JSX.Element {
         <input
           className="mb-8 w-full border border-slate-200 p-4"
           type="text"
-          onChange={searchHandler}
+          onChange={(e) => {
+            setFieldValue(e.target.value)
+            debouncedSetSearchTerm(e.target.value)
+          }}
           placeholder="Search a book here"
-          value={searchTerm}
+          value={fieldValue}
         />
       </form>
-      {books.length > 0 || videos.length > 0 ? (
+      {isLoading && (
+        <div className="py-4 border-b border-slate-100">
+          Loading...
+        </div>
+      )}
+      {data && (data?.books.length || 0 > 0 || data?.videos.length || 0 > 0) ? (
         <div className="mb-8 grid grid-cols-2 gap-6">
           <div>
             <h3 className="mb-3 text-lg font-bold">Books</h3>
-            {books.map((result) => (
+            {data.books.map((result) => (
               <button
                 key={result.id}
                 className="border-100 grid min-h-[121px] w-full grid-cols-[72px,1fr,auto] items-center border-t text-left transition-colors hover:bg-slate-50"
@@ -52,6 +79,7 @@ export default function Search(): JSX.Element {
                       src={result.volumeInfo.imageLinks?.smallThumbnail}
                       alt={`Book cover of "${result.volumeInfo.title}"`}
                       fill
+                      sizes="72px"
                       className="absolute inset-0 object-cover"
                     />
                   )}
@@ -82,7 +110,7 @@ export default function Search(): JSX.Element {
           </div>
           <div>
             <h3 className="mb-3 text-lg font-bold">Movies</h3>
-            {videos.slice(0, 10).map((result) => {
+            {data.videos.slice(0, 10).map((result) => {
               const releaseYear = result.description.match(/(19|20)\d{2}/gi);
               const year =
                 releaseYear && releaseYear.length >= 1
@@ -102,6 +130,7 @@ export default function Search(): JSX.Element {
                         alt={`Film cover of "${result.title}"`}
                         fill
                         className="absolute inset-0 object-cover"
+                        sizes="72px"
                       />
                     )}
                   </div>
