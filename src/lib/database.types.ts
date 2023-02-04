@@ -15,7 +15,7 @@ export interface Database {
           cover: string | null
           createdAt: string
           description: string | null
-          id: string
+          id: number
           isbn10: string | null
           isbn13: string
           releaseYear: number | null
@@ -28,7 +28,7 @@ export interface Database {
           cover?: string | null
           createdAt: string
           description?: string | null
-          id: string
+          id?: number
           isbn10?: string | null
           isbn13: string
           releaseYear?: number | null
@@ -41,7 +41,7 @@ export interface Database {
           cover?: string | null
           createdAt?: string
           description?: string | null
-          id?: string
+          id?: number
           isbn10?: string | null
           isbn13?: string
           releaseYear?: number | null
@@ -53,56 +53,50 @@ export interface Database {
       profiles: {
         Row: {
           email: string | null
-          emailVerified: string | null
           id: string
-          image: string | null
-          name: string | null
+          updated_at: string | null
         }
         Insert: {
           email?: string | null
-          emailVerified?: string | null
           id: string
-          image?: string | null
-          name?: string | null
+          updated_at?: string | null
         }
         Update: {
           email?: string | null
-          emailVerified?: string | null
           id?: string
-          image?: string | null
-          name?: string | null
+          updated_at?: string | null
         }
       }
       user_read_books: {
         Row: {
-          bookId: string
+          bookId: number
           id: number
           userId: string
         }
         Insert: {
-          bookId: string
+          bookId: number
           id?: number
           userId: string
         }
         Update: {
-          bookId?: string
+          bookId?: number
           id?: number
           userId?: string
         }
       }
       user_reading_list: {
         Row: {
-          bookId: string
+          bookId: number
           id: number
           userId: string
         }
         Insert: {
-          bookId: string
+          bookId: number
           id?: number
           userId: string
         }
         Update: {
-          bookId?: string
+          bookId?: number
           id?: number
           userId?: string
         }
@@ -111,34 +105,34 @@ export interface Database {
         Row: {
           id: number
           userId: string
-          videoId: string
+          videoId: number
         }
         Insert: {
           id?: number
           userId: string
-          videoId: string
+          videoId: number
         }
         Update: {
           id?: number
           userId?: string
-          videoId?: string
+          videoId?: number
         }
       }
       user_watching_list: {
         Row: {
           id: number
           userId: string
-          videoId: string
+          videoId: number
         }
         Insert: {
           id?: number
           userId: string
-          videoId: string
+          videoId: number
         }
         Update: {
           id?: number
           userId?: string
-          videoId?: string
+          videoId?: number
         }
       }
       videos: {
@@ -148,7 +142,7 @@ export interface Database {
           createdAt: string
           description: string | null
           genres: string[] | null
-          id: string
+          id: number
           image: string | null
           releaseYear: number | null
           title: string
@@ -160,7 +154,7 @@ export interface Database {
           createdAt: string
           description?: string | null
           genres?: string[] | null
-          id: string
+          id?: number
           image?: string | null
           releaseYear?: number | null
           title: string
@@ -172,7 +166,7 @@ export interface Database {
           createdAt?: string
           description?: string | null
           genres?: string[] | null
-          id?: string
+          id?: number
           image?: string | null
           releaseYear?: number | null
           title?: string
