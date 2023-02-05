@@ -99,7 +99,7 @@ export function rawBookToReWaLiItem(
     year: String(rawBook.release_year) || undefined,
     additionalInfos,
     entitiesInfo: `${(rawBook.authors || []).join(", ")}`,
-    createdAt: new Date(rawBook.created_at),
+    createdAt: rawBook.created_at,
   };
 }
 

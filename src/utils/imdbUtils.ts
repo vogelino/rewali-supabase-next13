@@ -66,7 +66,7 @@ export function rawVideoToReWaLiItem(rawVideo: DatabaseVideoType): ReWaListItemT
       Genres: (rawVideo.genres || []).join(", "),
     },
     entitiesInfo: `${(rawVideo.cast_members || []).join(", ")}`,
-    createdAt: new Date(rawVideo.created_at),
+    createdAt: rawVideo.created_at,
   };
 }
 

@@ -43,6 +43,12 @@ const nextConfig = {
         pathname: '/images/**',
       },
       {
+        protocol: 'https',
+        hostname: 'secure.gravatar.com',
+        port: '',
+        pathname: '/avatar/**',
+      },
+      {
         protocol: 'http',
         hostname: 'books.google.com',
         port: '',

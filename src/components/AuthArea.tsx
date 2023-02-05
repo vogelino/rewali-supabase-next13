@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useAuth } from './AuthProvider';
 import SignOut from './SignOut';
+import Image from 'next/image'
 
 export const AuthArea: React.FC = () => {
   const { initial, user, gravatarProfile } = useAuth();
@@ -18,9 +19,12 @@ export const AuthArea: React.FC = () => {
           className="text-left text-slate-700 underline decoration-slate-300 hover:decoration-black hover:text-black transition-all flex gap-2 items-center"
         >
           {gravatarProfile?.thumbnailUrl && (
-            <img
+            <Image
               src={gravatarProfile.thumbnailUrl}
+              alt={`Avatar of "${username}"`}
               className="w-6 h-6 rounded-full border border-slate-100"
+              width={24}
+              height={24}
             />
           )}
           {username}

@@ -5,6 +5,7 @@ import SignOut from '@/components/SignOut';
 import { supabaseServer } from '@/utils/supabaseServer';
 import { getGravatarProfile } from '@/utils/gravatarUtil';
 import { getRelativeTime } from '@/utils/timeUtil';
+import Image from 'next/image';
 
 export default async function Profile() {
   const supabase = supabaseServer();
@@ -25,9 +26,11 @@ export default async function Profile() {
       <h3 className="text-2xl font-bold mb-6 pt-8 mt-8 border-t border-slate-100">Basic Info</h3>
       <div className={`grid ${gravatarProfile ? "grid-cols-[auto,1fr]" : "grid-cols-1"} items-center gap-x-6`}>
         {gravatarProfile && (
-          <img
+          <Image
             src={gravatarProfile.thumbnailUrl}
             alt={`Gravatar image for email "${user.email}"`}
+            width={80}
+            height={80}
             className="aspect-square rounded-full border-slate-100"
           />
         )}

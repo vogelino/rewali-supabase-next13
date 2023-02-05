@@ -13,7 +13,7 @@ export interface ReWaListItemType {
   additionalInfos?: Record<string, string>;
   year?: string;
   type: "book" | "video";
-  createdAt: Date;
+  createdAt: string;
 }
 
 interface ItemsListPros {
@@ -21,12 +21,9 @@ interface ItemsListPros {
   onItemRemove?: (id: string, type: "book" | "video") => void;
 }
 
-export const ReWaList = ({
-  initialRewalist,
-  onItemRemove = () => undefined,
-}: ItemsListPros): JSX.Element => {
+export const ReWaList = ({ initialRewalist }: ItemsListPros): JSX.Element => {
   const auth = useAuth()
-  const { rewalist, error } = useReWaList(auth.user?.id, initialRewalist || undefined)
+  const { rewalist, removeFromRewalist, error } = useReWaList(auth.user?.id, initialRewalist || undefined)
 
   if (rewalist.length === 0) return <p>No items in your reading list yet</p>;
   if (error) return <p className="text-red-600">{error.message}</p>;
@@ -73,7 +70,7 @@ export const ReWaList = ({
             {auth?.user && (
               <button
                 className="inline-block aspect-square h-10 w-10 rounded-full bg-black font-semibold text-white no-underline transition hover:bg-black/80"
-                onClick={() => onItemRemove(item.id, item.type)}
+                onClick={() => removeFromRewalist(item)}
               >
                 –
               </button>
