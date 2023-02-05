@@ -1,16 +1,18 @@
 "use client"
-import { GoogleBookApiType } from "@/utils/googleBooksUtil";
-import { IMDBSearchResultType } from "@/utils/imdbUtils";
+import { GoogleBookApiType, googleBookToDatabaseBook } from "@/utils/googleBooksUtil";
+import { imbdVideoToDatabaseVideo, IMDBSearchResultType } from "@/utils/imdbUtils";
 import { useDebouncedCallback } from "use-debounce";
 import Image from "next/image";
 import { useCallback, useState } from "react";
 import useSWR from 'swr'
+import { useReWaList } from "@/utils/hooks/useReWaList";
+import { useAuth } from "./AuthProvider";
 
 async function searchBooksAndVideos(searchTerm?: string): Promise<{
   books: GoogleBookApiType[]
   videos: IMDBSearchResultType[]
 }> {
-  if (!searchTerm || !searchTerm.trim()) return { videos: [], books: [] }
+  if (!searchTerm?.trim()) return { videos: [], books: [] }
   const res = await fetch(`/api/search/${encodeURIComponent(searchTerm)}`)
   const json = await res.json() as {
     books: GoogleBookApiType[]
@@ -26,23 +28,30 @@ async function searchBooksAndVideos(searchTerm?: string): Promise<{
 export default function Search(): JSX.Element {
   const [searchTerm, setSearchTerm] = useState("");
   const [fieldValue, setFieldValue] = useState("");
-  const books = [] as GoogleBookApiType[]
-  const videos = [] as IMDBSearchResultType[]
   const { data, error, isLoading } = useSWR([searchTerm], () => searchBooksAndVideos(searchTerm), {
     revalidateOnFocus: false,
   })
+  const rewalistHook = useReWaList()
+  const auth = useAuth()
+  const userId = auth.user?.id
 
   const debouncedSetSearchTerm = useDebouncedCallback((term) => setSearchTerm(term), 500)
 
   const videoClickHandler = useCallback(async (video: IMDBSearchResultType) => {
     setFieldValue("");
-    console.log(video)
-  }, [setFieldValue]);
+    setSearchTerm("");
+    if (!userId) return
+    const parsedVideo = imbdVideoToDatabaseVideo(video)
+    await rewalistHook.addVideoToRewalist(parsedVideo, userId)
+  }, [setSearchTerm, setFieldValue, userId]);
 
   const bookClickHandler = useCallback(async (book: GoogleBookApiType) => {
     setFieldValue("");
-    console.log(book)
-  }, [setFieldValue]);
+    setSearchTerm("");
+    if (!userId) return
+    const parsedBook = googleBookToDatabaseBook(book)
+    await rewalistHook.addBookToRewalist(parsedBook, userId)
+  }, [setSearchTerm, setFieldValue, userId]);
 
   return (
     <section>
@@ -58,6 +67,12 @@ export default function Search(): JSX.Element {
           value={fieldValue}
         />
       </form>
+      {error && (
+        <div className="py-4 border-b border-red-300 text-red-600">
+          There was an error while searching for content:
+          <code>{error}</code>
+        </div>
+      )}
       {isLoading && (
         <div className="py-4 border-b border-slate-100">
           Loading...

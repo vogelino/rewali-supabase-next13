@@ -13,41 +13,41 @@ export interface Database {
         Row: {
           authors: string[] | null
           cover: string | null
-          createdAt: string
+          created_at: string
           description: string | null
           id: number
           isbn10: string | null
-          isbn13: string
-          releaseYear: number | null
+          isbn13: string | null
+          release_year: number | null
           subtitle: string | null
           title: string
-          updatedAt: string
+          updated_at: string
         }
         Insert: {
           authors?: string[] | null
           cover?: string | null
-          createdAt: string
+          created_at?: string
           description?: string | null
           id?: number
           isbn10?: string | null
-          isbn13: string
-          releaseYear?: number | null
+          isbn13?: string | null
+          release_year?: number | null
           subtitle?: string | null
           title: string
-          updatedAt: string
+          updated_at?: string
         }
         Update: {
           authors?: string[] | null
           cover?: string | null
-          createdAt?: string
+          created_at?: string
           description?: string | null
           id?: number
           isbn10?: string | null
-          isbn13?: string
-          releaseYear?: number | null
+          isbn13?: string | null
+          release_year?: number | null
           subtitle?: string | null
           title?: string
-          updatedAt?: string
+          updated_at?: string
         }
       }
       profiles: {
@@ -69,108 +69,105 @@ export interface Database {
       }
       user_read_books: {
         Row: {
-          bookId: number
+          book_id: number
           id: number
-          userId: string
+          user_id: string
         }
         Insert: {
-          bookId: number
+          book_id: number
           id?: number
-          userId: string
+          user_id: string
         }
         Update: {
-          bookId?: number
+          book_id?: number
           id?: number
-          userId?: string
+          user_id?: string
         }
       }
       user_reading_list: {
         Row: {
-          bookId: number
+          book_id: number
           id: number
-          userId: string
+          user_id: string
         }
         Insert: {
-          bookId: number
+          book_id: number
           id?: number
-          userId: string
+          user_id: string
         }
         Update: {
-          bookId?: number
+          book_id?: number
           id?: number
-          userId?: string
+          user_id?: string
         }
       }
       user_watched_videos: {
         Row: {
           id: number
-          userId: string
-          videoId: number
+          user_id: string
+          video_id: number
         }
         Insert: {
           id?: number
-          userId: string
-          videoId: number
+          user_id: string
+          video_id: number
         }
         Update: {
           id?: number
-          userId?: string
-          videoId?: number
+          user_id?: string
+          video_id?: number
         }
       }
       user_watching_list: {
         Row: {
           id: number
-          userId: string
-          videoId: number
+          user_id: string
+          video_id: number
         }
         Insert: {
           id?: number
-          userId: string
-          videoId: number
+          user_id: string
+          video_id: number
         }
         Update: {
           id?: number
-          userId?: string
-          videoId?: number
+          user_id?: string
+          video_id?: number
         }
       }
       videos: {
         Row: {
-          authors: string[] | null
-          castMembers: string[] | null
-          createdAt: string
+          cast_members: string[] | null
+          created_at: string
           description: string | null
           genres: string[] | null
           id: number
           image: string | null
-          releaseYear: number | null
+          release_year: number | null
           title: string
-          updatedAt: string
+          updated_at: string
         }
         Insert: {
-          authors?: string[] | null
-          castMembers?: string[] | null
-          createdAt: string
+          cast_members?: string[] | null
+          created_at?: string
           description?: string | null
           genres?: string[] | null
           id?: number
           image?: string | null
-          releaseYear?: number | null
+          release_year?: number | null
           title: string
-          updatedAt: string
+          updated_at?: string
         }
         Update: {
-          authors?: string[] | null
-          castMembers?: string[] | null
-          createdAt?: string
+          cast_members?: string[] | null
+          created_at?: string
           description?: string | null
           genres?: string[] | null
           id?: number
           image?: string | null
-          releaseYear?: number | null
+          release_year?: number | null
           title?: string
-          updatedAt?: string
+          updated_at?: string
         }
       }
     }
@@ -178,7 +175,10 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      add_books_to_reading_list: {
+        Args: { bookid: number; userid: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
