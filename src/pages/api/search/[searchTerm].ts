@@ -2,7 +2,7 @@ import { searchGoogleBooks } from '@/utils/googleBooksUtil'
 import { searchIMDBItems } from '@/utils/imdbUtils'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function rewalistSearch(req: NextApiRequest, res: NextApiResponse) {
   try {
     const searchTerm = typeof req.query?.searchTerm === "string" ? req.query.searchTerm : undefined
     if (!searchTerm) {

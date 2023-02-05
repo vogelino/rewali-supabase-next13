@@ -2,7 +2,7 @@
 import { getGravatarProfile } from '@/utils/gravatarUtil'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function gravatarImage(req: NextApiRequest, res: NextApiResponse) {
   const email = typeof req.query?.email === "string" ? req.query.email : undefined
   if (!email) {
     res.status(404).json({ status: 404, message: `Gravatar profile information for email "${email}" not found` })
