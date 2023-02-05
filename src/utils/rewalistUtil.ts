@@ -20,7 +20,8 @@ export async function getRewalist(userId: string, supabase: SupabaseClient<Datab
         release_year,
         authors
       )
-    `, { count: "exact" }).eq('user_id', userId),
+    `, { count: "exact" })
+      .eq('user_id', userId),
     supabase.from('user_watching_list').select(`
       video_id (
         id,
@@ -33,7 +34,8 @@ export async function getRewalist(userId: string, supabase: SupabaseClient<Datab
         genres,
         release_year
       )
-    `, { count: "exact" }).eq('user_id', userId),
+    `, { count: "exact" })
+      .eq('user_id', userId),
   ])
 
   if (booksRes.error) throw new Error(booksRes.error.message)
@@ -42,7 +44,7 @@ export async function getRewalist(userId: string, supabase: SupabaseClient<Datab
   return [
     ...(booksRes.data || []).map(d => rawBookToReWaLiItem(d.book_id as DatabaseBookType)),
     ...(videoRes.data || []).map(d => rawVideoToReWaLiItem(d.video_id as DatabaseVideoType)),
-  ]
+  ].sort((a, b) => a.title.localeCompare(b.title, 'en'))
 }
 
 export type DatabaseBookType = Database['public']['Tables']['books']['Row']

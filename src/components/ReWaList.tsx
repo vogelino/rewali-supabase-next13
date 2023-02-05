@@ -13,6 +13,7 @@ export interface ReWaListItemType {
   additionalInfos?: Record<string, string>;
   year?: string;
   type: "book" | "video";
+  createdAt: Date;
 }
 
 interface ItemsListPros {

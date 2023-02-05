@@ -12,7 +12,7 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: [
               `img-src 'self' https://www.gravatar.com https://en.gravatar.com https://secure.gravatar.com https://m.media-amazon.com data: blob:`,
-              `connect-src 'self' ${process.env.NEXT_PUBLIC_SUPABASE_URL} https://en.gravatar.com https://www.gravatar.com`,
+              `connect-src 'self' ${process.env.NEXT_PUBLIC_SUPABASE_URL} https://en.gravatar.com https://www.gravatar.com https://secure.gravatar.com`,
             ].join("; "),
           },
         ],
