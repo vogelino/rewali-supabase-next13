@@ -31,9 +31,9 @@ export default function Search(): JSX.Element {
   const { data, error, isLoading } = useSWR([searchTerm], () => searchBooksAndVideos(searchTerm), {
     revalidateOnFocus: false,
   })
-  const rewalistHook = useReWaList()
   const auth = useAuth()
   const userId = auth.user?.id
+  const rewalistHook = useReWaList(userId)
 
   const debouncedSetSearchTerm = useDebouncedCallback((term) => setSearchTerm(term), 500)
 
@@ -42,16 +42,16 @@ export default function Search(): JSX.Element {
     setSearchTerm("");
     if (!userId) return
     const parsedVideo = imbdVideoToDatabaseVideo(video)
-    await rewalistHook.addVideoToRewalist(parsedVideo, userId)
-  }, [setSearchTerm, setFieldValue, userId]);
+    rewalistHook.addVideoToRewalist(parsedVideo)
+  }, [setSearchTerm, setFieldValue, userId, rewalistHook.addVideoToRewalist]);
 
   const bookClickHandler = useCallback(async (book: GoogleBookApiType) => {
     setFieldValue("");
     setSearchTerm("");
     if (!userId) return
     const parsedBook = googleBookToDatabaseBook(book)
-    await rewalistHook.addBookToRewalist(parsedBook, userId)
-  }, [setSearchTerm, setFieldValue, userId]);
+    rewalistHook.addBookToRewalist(parsedBook)
+  }, [setSearchTerm, setFieldValue, userId, rewalistHook.addBookToRewalist]);
 
   return (
     <section>

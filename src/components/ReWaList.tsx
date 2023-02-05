@@ -25,7 +25,7 @@ export const ReWaList = ({
   onItemRemove = () => undefined,
 }: ItemsListPros): JSX.Element => {
   const auth = useAuth()
-  const { rewalist, error } = useReWaList(initialRewalist || undefined)
+  const { rewalist, error } = useReWaList(auth.user?.id, initialRewalist || undefined)
 
   if (rewalist.length === 0) return <p>No items in your reading list yet</p>;
   if (error) return <p className="text-red-600">{error.message}</p>;
@@ -41,6 +41,7 @@ export const ReWaList = ({
                   src={item.thumbnail}
                   alt={`Thumbnail of "${item.title}"`}
                   fill
+                  sizes="100px"
                   className="absolute top-0 left-0 object-cover"
                 />
                 <div className="border-slate-900/8 absolute inset-0 border" />
